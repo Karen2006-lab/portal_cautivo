@@ -1,0 +1,14 @@
+<?php
+session_start();
+include("conexion.php");
+
+$usuario_id = $_SESSION['usuario_id'];  // Asegúrate de guardar esto al iniciar sesión
+$ip = $_SERVER['REMOTE_ADDR'];
+$fecha = date("Y-m-d H:i:s");
+$url = $_GET['url']; // Supongamos que rediriges algo como registro_url.php?url=www.google.com
+
+// Guarda en la tabla
+$stmt = $conexion->prepare("INSERT INTO historial_navegacion (usuario_id, ip, fecha, url) VALUES (?, ?, ?, ?)");
+$stmt->bind_param("isss", $usuario_id, $ip, $fecha, $url);
+$stmt->execute();
+?>
